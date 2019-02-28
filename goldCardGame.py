@@ -474,9 +474,9 @@ def getPlayCard(pcardChoice, oHand, pHand, board, textbox, xCard, yCard, xHand, 
         if pHand[pcardChoice].ctype == "WHITE":
             pacqGold = patkPwr - oatkPwr
             i1 = "You win"
-            i2 = pacqGold
+            i2 = patkPwr
             i3 = "minus"
-            i4 = oacqGold
+            i4 = oatkPwr
             updateText1 = str(i1)
             updateText2 = str(i2)
             updateText3 = str(i3)
@@ -487,7 +487,7 @@ def getPlayCard(pcardChoice, oHand, pHand, board, textbox, xCard, yCard, xHand, 
         elif pHand[pcardChoice].ctype == "GOLD":
             pacqGold = patkPwr
             i1 = "You win"
-            i2 = pacqGold
+            i2 = patkPwr
             i3 = "this turn."
             i4 = ''
             updateText1 = str(i1)
@@ -499,45 +499,41 @@ def getPlayCard(pcardChoice, oHand, pHand, board, textbox, xCard, yCard, xHand, 
             
     elif victoryType == 2:
         print("victoryType:", victoryType)
-        if pHand[pcardChoice].ctype == "GOLD":
+        if pHand[pcardChoice].ctype and oHand[ocardChoice].ctype == "GOLD":
             pacqGold = patkPwr
-            i1 = "You played a gold card"
+            oacqGold = oatkPwr
+            i1 = "You both played a gold card"
             i2 = "on a tie, so you still earn"
-            i3 = pacqGold
-            i4 = "this turn."
+            i3 = "gold this turn."
+            i4 = ''
             updateText1 = str(i1)
             updateText2 = str(i2)
             updateText3 = str(i3)
             updateText4 = str(i4)
             effect = pygame.mixer.Sound('plusGold.wav')
             effect.play(pacqGold)
-        else:
-            pacqGold = 0
-            i1 = "You earn nothing"
-            i2 = ''
-            i3 = ''
-            i4 = ''
+        elif pHand[pcardChoice].ctype == "GOLD":
+            pacqGold = patkPwr
+            i1 = "You played a gold card on a tie, "
+            i2 = 'so you still earn'
+            i3 = pacqGold
+            i4 = 'gold'
             updateText1 = str(i1)
             updateText2 = str(i2)
             updateText3 = str(i3)
             updateText4 = str(i4)
-    elif victoryType == 2:
-        print("victoryType:", victoryType)
-        if oHand[ocardChoice].ctype == "GOLD":
+        elif oHand[ocardChoice].ctype == "GOLD":
             oacqGold = oatkPwr
-            i1 = "They played a gold card"
-            i2 = "on a tie, so they still earn"
+            i1 = "Your opponent played a gold card on a  "
+            i2 = 'tie, so they still earn'
             i3 = oacqGold
-            i4 = "this turn."
+            i4 = 'gold'
             updateText1 = str(i1)
             updateText2 = str(i2)
             updateText3 = str(i3)
             updateText4 = str(i4)
-            effect = pygame.mixer.Sound('plusGold.wav')
-            effect.play(oacqGold)
         else:
-            oacqGold = 0
-            i1 = "Your opponent earns nothing"
+            i1 = "No gold was earned this turn"
             i2 = ''
             i3 = ''
             i4 = ''
@@ -548,15 +544,15 @@ def getPlayCard(pcardChoice, oHand, pHand, board, textbox, xCard, yCard, xHand, 
     elif victoryType == 3:
         print("victoryType:", victoryType)
         if oHand[ocardChoice].ctype == "WHITE":
+            oacqGold = oatkPwr - patkPwr
             i1 = "They win"
-            i2 = oacqGold
+            i2 = oatkPwr
             i3 = "minus"
-            i4 = pacqGold
+            i4 = patkPwr
             updateText1 = str(i1)
             updateText2 = str(i2)
             updateText3 = str(i3)
             updateText4 = str(i4)
-            oacqGold = oatkPwr - patkPwr
             effect = pygame.mixer.Sound('plusGold.wav')
             effect.play(oacqGold)
             
