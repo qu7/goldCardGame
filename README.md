@@ -1,5 +1,7 @@
 This is a basic card game written in python, using pygame functions.
 
+Feel free to use this game for the building blocks of your own game.
+
 This is a great project for beginners to contribute to.
 
 # goldCardGame
