@@ -17,8 +17,6 @@ BOARDWIDTH = 24
 BOARDHEIGHT = 16
 TEXTWIDTH = 20
 TEXTHEIGHT = 6
-CARDWIDTH = 3
-CARDHEIGHT = 3
 
 BLANK = '.'
 XMARGIN = int((WINDOWWIDTH - BOARDWIDTH * BOXSIZE) / 2)
@@ -27,29 +25,17 @@ txtXMARGIN = int((WINDOWWIDTH - TEXTWIDTH * BOXSIZE) / 2)
 txtTOPMARGIN = WINDOWHEIGHT - (TEXTHEIGHT * BOXSIZE) - 10
 WHITE = (255, 255, 255)
 BLACK = (0,0,0)
-GREY = (100, 100, 100)
-GREY2 = (90, 80, 80)
-BLUE1 = (0,0,200)
-BLUE2 = (0,0,100)
-GOLD = (125, 125, 0)
-GREEN = (0, 255, 0)
-YELLOW = (175, 175, 0)
-CARDCOLORS = (WHITE, GOLD, BLACK, BLUE1)
+BLUE = (0,0,200)
+GREY = (50,50,50)
 
-# BG COLOR FOR SCREEN
 BGCOLOR = BLACK
-# COLOR OF TOP BOX
 TOPBOXCOLOR = BLACK
-# COLOR OF TEXT BOX
-TEXTBOXCOLOR = BLUE1
-# BORDER COLOR
+TEXTBOXCOLOR = BLUE
 BORDERCOLOR = WHITE
-
 TEXTCOLOR = WHITE
-TEXTSHADOWCOLOR = GREY2
+TEXTSHADOWCOLOR = GREY
 
 class Card():
-        # card prototype
     def __init__(self, ctype, cpower, cname, cindex):
         self.cname = cname # Name of card
         self.ctype = ctype # Type, Gold, White or Blue
@@ -91,8 +77,6 @@ pygame.image.load('graphics\cardback.png').convert()
 cardback = pygame.image.load('graphics\cardback.png').convert()
 cursorGfx = pygame.image.load('graphics\cursor.gif').convert()
 
-# list of cards in the decks
-# player's base deck:
 pDeckCards = [gold1, white1, gold3, gold3, white3, white5, white4]
 oDeckCards = [gold1, white1, gold3, gold3, white3, white5, white4]
 
@@ -109,8 +93,6 @@ def main():
 
 # input loop
     while True:
-    
-# KEYBOARD FUNCTIONS
         kPressed = pygame.key.get_pressed()
 
 # determine to end the game
@@ -130,7 +112,7 @@ def runGame():
     updateText3 = ""
     updateText4 = ""
     
-    # list of cards in the player's hand
+    # list of cards in each player's hand
     pHand = []
     oHand = []
     
@@ -315,8 +297,8 @@ def runGame():
     cursory = -100
     
     # Music begins
-    pygame.mixer.music.load('downtime.mp3')
-    pygame.mixer.music.play(-1, 0.0)
+    # pygame.mixer.music.load('downtime.mp3')
+    # pygame.mixer.music.play(-1, 0.0)
     updateText1 = "Choose a card to play."
     updateText2 = ""
     updateText3=""
@@ -328,9 +310,7 @@ def runGame():
     getPlayCard(pcardChoice, oHand, pHand, board, textbox, xCard, yCard, xHand, yHand, cursorx, cursory, pgoldScore, ogoldScore, pDeck, oDeck, pDeckInPlay, oDeckInPlay, updateText1, updateText2, updateText3, updateText4, drawnCard)
 
 
-####---------------------GAMEPLAY LOOP STARTS HERE ----------------------------####
-#### we play until either player has no more cards to draw
-    
+# GAMEPLAY LOOP STARTS HERE
 def getNextTurn(board, updateText1, updateText2, updateText3, updateText4, textbox, pgoldScore, pDeck, oDeck, ogoldScore, pHand, oHand, pDeckInPlay, oDeckInPlay):
     print("getNextTurn begins")
 
@@ -411,9 +391,6 @@ def getPlayCard(pcardChoice, oHand, pHand, board, textbox, xCard, yCard, xHand, 
 
     # 1 for player victory, 2 for draw, 3 for opponent victory
     victoryType = 0
-
-# here we process the card's vs. stats. The card with the higher number wins the difference in gold    
-# compare strength with this if statement
 
 # your opponent selects a random card    
     ocardChoice = randrange(len(oHand))
