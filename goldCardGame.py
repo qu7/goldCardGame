@@ -1,13 +1,9 @@
-# Gold Card
-
 import pygame
 import sys
 import random
 import time
 from random import randrange
 
-
-## GLOBAL VARIABLES
 FPS = 45
 WINDOWWIDTH = 640
 WINDOWHEIGHT = 480
@@ -41,12 +37,7 @@ class Card():
         self.ctype = ctype # Type, Gold, White or Blue
         self.cpower = cpower # "Strength of the card"
         self.cindex = cindex # Unique card number
-
-    def card_info(self, ctype, cpower, cname):
-        print("Card Name:", cname)
-        print("Type:", ctype)
-        print("Power:", cpower)
-
+        
 # list of cards and attributes
 white1 = Card("WHITE", 1 ,"White 1", 0)
 white3 = Card("WHITE", 3 ,"White 3", 2)
@@ -57,8 +48,7 @@ gold3 = Card("GOLD", 3 ,"Gold 3", 7)
 blue1 = Card("BLUE", 0, "Double Power", 10)
 blue2 = Card("BLUE", 0, "Block", 11)
 
-
-# GRAPHICS
+# load graphics
 cardfront = [
 pygame.image.load('graphics\white1.png').convert(),
 pygame.image.load('graphics\white2.png').convert(),
@@ -88,14 +78,11 @@ def main():
     BASICFONT = pygame.font.Font('freesansbold.ttf', 18)
     BIGFONT = pygame.font.Font('freesansbold.ttf', 100)
     pygame.display.set_caption("Gold Card")
-    print("main works")
     runGame()
 
-# input loop
     while True:
         kPressed = pygame.key.get_pressed()
 
-# determine to end the game
     if event.type == pygame.QUIT:
         return
     if event.type.key == pygame.K_w and ctrl_held:
@@ -106,7 +93,6 @@ def main():
         return
 
 def runGame():
-    print("run game works")
     updateText1 = ""
     updateText2 = ""
     updateText3 = ""
@@ -140,20 +126,16 @@ def runGame():
     cursory = -100
     selected = 1
     
-    
     board = getBlankBoard()
     textbox = getTextBox()
-    print("blank board works")
+    
     # drawing the screen
     DISPLAYSURF.fill(BGCOLOR)
     drawBoard(board, textbox, xCard, yCard, oHand, pHand, drawnCard, xHand, yHand, cursorx, cursory)
-    print("draw board works")
     drawStatus(pgoldScore, pDeck, ogoldScore, updateText1, updateText2, updateText3, updateText4)
-    print("draw status... good")
     pygame.display.update()
     pygame.mixer.music.load('cardmusic.mp3')
     pygame.mixer.music.play(0, 0.0)
-    print("Tunes work")
 
     # update the screen and start the clock
     pygame.display.update()
@@ -170,7 +152,6 @@ def runGame():
     updateText4=""
 
 # shuffle decks
-    print("Shuffling the deck...")
     random.shuffle(pDeckInPlay)
     random.shuffle(oDeckInPlay)
     drawBoard(board, textbox, xCard, yCard, oHand, pHand, drawnCard, xHand, yHand, cursorx, cursory)
@@ -296,14 +277,10 @@ def runGame():
     cursorx = -100
     cursory = -100
     
-    # Music begins
-    # pygame.mixer.music.load('downtime.mp3')
-    # pygame.mixer.music.play(-1, 0.0)
     updateText1 = "Choose a card to play."
     updateText2 = ""
     updateText3=""
     updateText4=""
-    print("End of the intro")
     drawBoard(board, textbox, xCard, yCard, oHand, pHand, drawnCard, xHand, yHand, cursorx, cursory)
     drawStatus(pgoldScore, ogoldScore, pDeck, updateText1, updateText2, updateText3, updateText4)
     pcardChoice = selectCard(board, textbox, xCard, yCard, oHand, pHand, xHand, yHand, cursorx, cursory, drawnCard, pDeckInPlay, oDeckInPlay)
@@ -312,7 +289,6 @@ def runGame():
 
 # GAMEPLAY LOOP STARTS HERE
 def getNextTurn(board, updateText1, updateText2, updateText3, updateText4, textbox, pgoldScore, pDeck, oDeck, ogoldScore, pHand, oHand, pDeckInPlay, oDeckInPlay):
-    print("getNextTurn begins")
 
     xHand = 100
     yHand = 240
@@ -322,7 +298,6 @@ def getNextTurn(board, updateText1, updateText2, updateText3, updateText4, textb
     cursory = -100
             
     if pDeck <= 0:
-        print("There are no cards left to draw!!")
         updateText1 = "You have no more cards"
         updateText2 = "left to draw!"
         updateText3 = ""
@@ -345,7 +320,6 @@ def getNextTurn(board, updateText1, updateText2, updateText3, updateText4, textb
     pygame.time.wait(2000)
 
     if oDeck <= 0:
-        print("They have no more cards left to draw!!")
         updateText1 = "Your opponent is out of"
         updateText2 = "cards to draw!"
         updateText3 = ""
@@ -363,42 +337,32 @@ def getNextTurn(board, updateText1, updateText2, updateText3, updateText4, textb
     pygame.time.wait(2000)
 
     if len(pHand) < 1:
-        print("There are no more cards left to play!")
         getEndGame(oHand, pHand, board, textbox, xCard, yCard, xHand, yHand, cursorx, cursory, pgoldScore, ogoldScore, pDeck, oDeck, pDeckInPlay, oDeckInPlay, updateText1, updateText2, updateText3, updateText4, drawnCard)
     elif len(oHand) < 1:
-        print("There are no more cards left to play!")
         getEndGame(oHand, pHand, board, textbox, xCard, yCard, xHand, yHand, cursorx, cursory, pgoldScore, ogoldScore, pDeck, oDeck, pDeckInPlay, oDeckInPlay, updateText1, updateText2, updateText3, updateText4, drawnCard)
     else:
         updateText1 = "Now choose a card to play"
         updateText2 = ""
         updateText3=""
         updateText4=""
-        print("'get next turn' ends... start choosing a card again")
         drawBoard(board, textbox, xCard, yCard, oHand, pHand, drawnCard, xHand, yHand, cursorx, cursory)
         drawStatus(pgoldScore, ogoldScore, pDeck, updateText1, updateText2, updateText3, updateText4)
         pcardChoice = selectCard(board, textbox, xCard, yCard, oHand, pHand, xHand, yHand, cursorx, cursory, drawnCard, pDeckInPlay, oDeckInPlay)
         getPlayCard(pcardChoice, oHand, pHand, board, textbox, xCard, yCard, xHand, yHand, cursorx, cursory, pgoldScore, ogoldScore, pDeck, oDeck, pDeckInPlay, oDeckInPlay, updateText1, updateText2, updateText3, updateText4, drawnCard)
 
-
-#### -------------------- PLAYING A CARD -------------------------------####
-    
-def getPlayCard(pcardChoice, oHand, pHand, board, textbox, xCard, yCard, xHand, yHand, cursorx, cursory, pgoldScore, ogoldScore, pDeck, oDeck, pDeckInPlay, oDeckInPlay, updateText1, updateText2, updateText3, updateText4, drawnCard):
-    print("Playing a card turn works")
-    print("getPlayCard: You have chosen card #", pcardChoice, "from your hand")
-    
+# play a card
+def getPlayCard(pcardChoice, oHand, pHand, board, textbox, xCard, yCard, xHand, yHand, cursorx, cursory, pgoldScore, ogoldScore, pDeck, oDeck, pDeckInPlay, oDeckInPlay, updateText1, updateText2, updateText3, updateText4, drawnCard):    
     pacqGold = 0
     oacqGold = 0
 
-    # 1 for player victory, 2 for draw, 3 for opponent victory
+# victory type: 1 = 1P wins, 2 = Draw, 3 = 2P wins
     victoryType = 0
 
 # your opponent selects a random card    
     ocardChoice = randrange(len(oHand))
     patkPwr = pHand[pcardChoice].cpower
     oatkPwr = oHand[ocardChoice].cpower
-    print("opponent picks", oHand[ocardChoice].cname)
-    print("you picked", pHand[pcardChoice].cname, pHand[pcardChoice].ctype, pHand[pcardChoice].cpower)
-    
+
     i1 = "Your opponent plays"
     i2 = oHand[ocardChoice].cname, oHand[ocardChoice].ctype, oHand[ocardChoice].cpower
     i3 = "Against your"
@@ -411,8 +375,7 @@ def getPlayCard(pcardChoice, oHand, pHand, board, textbox, xCard, yCard, xHand, 
     drawStatus(pgoldScore, ogoldScore, pDeck, updateText1, updateText2, updateText3, updateText4)
     pygame.time.wait(2000)
 
-    
-# IF PLAYER WINS
+# determine a winner
     if patkPwr > oatkPwr:
         updateText1 = "You win this turn!"
         updateText2 = ''
@@ -423,9 +386,7 @@ def getPlayCard(pcardChoice, oHand, pHand, board, textbox, xCard, yCard, xHand, 
         pygame.time.wait(2000)
         victoryType = 1
 
-# IF DRAW
     elif patkPwr == oatkPwr:
-        print("It's a draw!!")
         updateText1 = "It's a draw!"
         updateText2 = ""
         updateText3 = ""
@@ -435,7 +396,6 @@ def getPlayCard(pcardChoice, oHand, pHand, board, textbox, xCard, yCard, xHand, 
         pygame.time.wait(2000)
         victoryType = 2
         
-# IF OPPONENT WINS
     elif oatkPwr > patkPwr:
         updateText1 = "Your opponent wins this turn..."
         updateText2 = ''
@@ -447,7 +407,6 @@ def getPlayCard(pcardChoice, oHand, pHand, board, textbox, xCard, yCard, xHand, 
         victoryType = 3
 
     if victoryType == 1:
-        print("victoryType:", victoryType)
         if pHand[pcardChoice].ctype == "WHITE":
             pacqGold = patkPwr - oatkPwr
             i1 = "You win"
@@ -475,7 +434,6 @@ def getPlayCard(pcardChoice, oHand, pHand, board, textbox, xCard, yCard, xHand, 
             effect.play(pacqGold)
             
     elif victoryType == 2:
-        print("victoryType:", victoryType)
         if pHand[pcardChoice].ctype and oHand[ocardChoice].ctype == "GOLD":
             pacqGold = patkPwr
             oacqGold = oatkPwr
@@ -519,7 +477,6 @@ def getPlayCard(pcardChoice, oHand, pHand, board, textbox, xCard, yCard, xHand, 
             updateText3 = str(i3)
             updateText4 = str(i4)
     elif victoryType == 3:
-        print("victoryType:", victoryType)
         if oHand[ocardChoice].ctype == "WHITE":
             oacqGold = oatkPwr - patkPwr
             i1 = "They win"
@@ -549,23 +506,22 @@ def getPlayCard(pcardChoice, oHand, pHand, board, textbox, xCard, yCard, xHand, 
     drawBoard(board, textbox, xCard, yCard, oHand, pHand, drawnCard, xHand, yHand, cursorx, cursory)
     drawStatus(pgoldScore, ogoldScore, pDeck, updateText1, updateText2, updateText3, updateText4)
     pygame.time.wait(2000)
+    
 # delete the card from play
     pHand.pop(pcardChoice)
     oHand.pop(ocardChoice)
     pgoldScore += pacqGold
     ogoldScore += oacqGold
-    print("Cards deleted from hand succesfully")
     updateText1 = "Next Turn!"
     updateText2 = ""
     updateText3 = ""
     updateText4 = ""
-    print("Cards have been compared succesfully")
     drawBoard(board, textbox, xCard, yCard, oHand, pHand, drawnCard, xHand, yHand, cursorx, cursory)
     drawStatus(pgoldScore, ogoldScore, pDeck, updateText1, updateText2, updateText3, updateText4)
     pygame.time.wait(2000)
     getNextTurn(board, updateText1, updateText2, updateText3, updateText4, textbox, pgoldScore, pDeck, oDeck, ogoldScore, pHand, oHand, pDeckInPlay, oDeckInPlay)    
 
-#### -------------------- GAMEPLAY LOOP ENDS ---------------------------####
+# gameplay loop ends here
 
 def getEndGame(oHand, pHand, board, textbox, xCard, yCard, xHand, yHand, cursorx, cursory, pgoldScore, ogoldScore, pDeck, oDeck, pDeckInPlay, oDeckInPlay, updateText1, updateText2, updateText3, updateText4, drawnCard):
     updateText1 = "The game has ended!"
@@ -607,23 +563,20 @@ def getEndGame(oHand, pHand, board, textbox, xCard, yCard, xHand, yHand, cursorx
     drawStatus(pgoldScore, ogoldScore, pDeck, updateText1, updateText2, updateText3, updateText4)
     pygame.time.wait(2000)
         
-#### -------------------- DRAWING THE BOARDS -------------------------- ####    
-
+# drawing boards
 def getBlankBoard():
     board = []
-    print("Get blank board works")
     for i in range(BOARDWIDTH):
         board.append([BLANK] * BOARDHEIGHT)
     return board
 
 def getTextBox():
     textbox = []
-    print("Get txtbox works")
     for i in range(TEXTWIDTH):
         textbox.append([BLANK] * TEXTHEIGHT)
     return textbox
 
-#### UPDATE THE TEXTBOX AND GAME STATUS HERE ####
+# update text box and status
 def drawStatus(pgoldScore, ogoldScore, pDeck, updateText1, updateText2, updateText3, updateText4):
 # Player stats
     scoreSurf = BASICFONT.render('P1: %s' % pgoldScore, True, TEXTCOLOR)
@@ -660,7 +613,7 @@ def drawStatus(pgoldScore, ogoldScore, pDeck, updateText1, updateText2, updateTe
     DISPLAYSURF.blit(textSurf4, textRect4)
     pygame.display.update()
 
-#### TURN TEXT INTO OBJECT   
+# turn text into object
 def makeTextObjs(text, font, color):
     surf = font.render(text, True, color)
     return surf, surf.get_rect()
@@ -713,9 +666,6 @@ def selectCard(board, textbox, xCard, yCard, oHand, pHand, xHand, yHand, cursorx
     pygame.display.flip()
 
 # KEYBOARD FUNCTIONS
-# determine if an arrow key is pressed
-# cycle through cards on hand
-
     while selected == 0:
         for event in pygame.event.get():
             if event.type == pygame.KEYDOWN:
@@ -737,24 +687,21 @@ def selectCard(board, textbox, xCard, yCard, oHand, pHand, xHand, yHand, cursorx
                         effect.play()
                         cursorx -= 80
                         pcardChoice -= 1
-                        print("selection:", pcardChoice)
                         drawBoard(board, textbox, xCard, yCard, oHand, pHand, drawnCard, xHand, yHand, cursorx, cursory)
                 elif mode == 'cursorRight':
                         effect = pygame.mixer.Sound('sound\cursor.wav')
                         effect.play()
                         cursorx += 80
                         pcardChoice += 1
-                        print("selection:", pcardChoice)
                         drawBoard(board, textbox, xCard, yCard, oHand, pHand, drawnCard, xHand, yHand, cursorx, cursory)
                 elif mode == 'noMove':
                         effect = pygame.mixer.Sound('sound\cursor.wav')
                         effect.play()
                 elif mode == 'selected':
-                        print("selectCard: You have chosen card #", pcardChoice, "from your hand")
                         return(pcardChoice)
     
 # update screen
     pygame.display.flip()
     
 if __name__ == '__main__':
-        main()
+    main()
